@@ -1,0 +1,612 @@
+/* ==========================================================================
+   style.css — Dcode (Dileng'art) Single-Page
+   Purpose: Modern, corporate, responsive "Tech / SaaS" visual system.
+   Notes: Colors, typography and responsive rules are documented below.
+   ========================================================================== */
+
+/* --------------------------
+   Design tokens / variables
+   -------------------------- */
+:root {
+  --blue-primary: #1b365d;      /* Institutional blue (primary) */
+  --gray-light: #f8f9fa;        /* Very light gray for alternating sections */
+  --card-white: #ffffff;        /* Pure white for cards */
+  --text-dark: #102131;         /* Dark text for contrast */
+  --muted: #6c757d;             /* Muted gray for small text */
+  --radius: 8px;                /* Default border radius */
+  --container: 1200px;          /* Page container max width */
+  --gap: 1.25rem;               /* Base gap spacing for grids/flex */
+  --shadow-sm: 0 4px 12px rgba(11,25,46,0.08);
+  --shadow-md: 0 8px 24px rgba(11,25,46,0.12);
+  --focus-ring: 0 0 0 4px rgba(27,54,93,0.12);
+}
+
+/* --------------------------
+   Global resets & basics
+   -------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Inter, Arial, sans-serif; /* Specified modern sans-serif fonts */
+  background-color: var(--gray-light); /* Default background */
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  scroll-behavior: smooth; /* Enable smooth anchor navigation */
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+}
+
+/* Base link styling */
+a {
+  color: var(--blue-primary);
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+
+a:hover {
+  color: #1a2c4e; /* Slightly darker primary blue on hover */
+}
+
+/* --------------------------
+   Layout container
+   -------------------------- */
+.container {
+  max-width: var(--container);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+/* --------------------------
+   Header / Navigation
+   Note: The HTML provided has nested <header> tags.
+   This CSS targets the inner <header> which contains the nav elements.
+   The `img` tag in the `<head>` is ignored for styling due to its incorrect placement.
+   -------------------------- */
+header { /* Targets the inner <header> with nav */
+  background: var(--card-white);
+  border-bottom: 1px solid rgba(16,33,49,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* High z-index to stay on top */
+  box-shadow: 0 2px 10px rgba(11,25,46,0.05);
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem var(--gap);
+  max-width: var(--container);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Brand / Logo styling for the text link */
+header nav > a { /* Targets the "Bienvenue sur Dcode : du code à la solution" link */
+  color: var(--blue-primary);
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+header nav > a:hover {
+  color: #1a2c4e;
+}
+
+/* Desktop navigation links */
+header nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.75rem;
+}
+
+header nav ul li a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+header nav ul li a:hover,
+header nav ul li a:focus {
+  background-color: rgba(27,54,93,0.06); /* Light blue tint on hover */
+  color: var(--blue-primary);
+  outline: none; /* Remove default outline for better focus ring */
+}
+
+/* Mobile menu button: hidden by default on desktop */
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  color: var(--blue-primary); /* Icon color */
+  cursor: pointer;
+  transition: transform 0.15s ease-in-out;
+}
+
+.mobile-menu-button svg {
+  width: 28px;
+  height: 28px;
+}
+
+.mobile-menu-button:hover {
+  transform: scale(1.1);
+}
+
+/* Mobile menu dropdown (hidden by default) */
+#mobile-menu {
+  display: none; /* Hidden by default for JS to control */
+  background: var(--card-white);
+  border-top: 1px solid rgba(16,33,49,0.06);
+  position: absolute; /* Position relative to the header */
+  width: 100%;
+  left: 0;
+  top: 100%; /* Position below the main nav */
+  box-shadow: 0 4px 10px rgba(11,25,46,0.05);
+  overflow: hidden;
+  max-height: 0; /* Controlled by JS for smooth slide */
+  transition: max-height 0.3s ease-in-out;
+}
+
+#mobile-menu.open {
+  max-height: 300px; /* Sufficient height for menu items */
+}
+
+#mobile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center links in mobile view */
+  gap: 0.75rem;
+}
+
+#mobile-menu ul li a {
+  text-decoration: none;
+  color: var(--text-dark);
+  padding: 0.75rem 1.25rem;
+  width: 100%;
+  text-align: center;
+  display: block;
+  border-radius: 6px;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+#mobile-menu ul li a:hover {
+  background-color: rgba(27,54,93,0.04);
+  color: var(--blue-primary);
+}
+
+/* --------------------------
+   Sections, titles and alternation
+   -------------------------- */
+main section {
+  padding: 4.5rem 0; /* Generous vertical padding */
+  text-align: center;
+}
+
+main section:nth-of-type(even) { /* Alternate background for sections */
+  background-color: var(--gray-light);
+}
+
+main section:nth-of-type(odd) {
+  background-color: var(--card-white);
+}
+
+.section-title {
+  margin: 0 0 1rem 0;
+  font-size: 2.25rem;
+  color: var(--blue-primary);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.section-intro {
+  margin: 0 auto 2.5rem auto;
+  color: var(--muted);
+  max-width: 800px;
+  font-size: 1.125rem;
+}
+
+/* --------------------------
+   Hero section (#accueil)
+   -------------------------- */
+#accueil {
+  padding-top: 8rem; /* Space for fixed header */
+  min-height: calc(100vh - 8rem); /* Adjust min-height for full view */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #f0f4f8 0%, #e9edf2 100%); /* Subtle light gradient */
+}
+
+#accueil > div { /* Wrapper div inside hero */
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+#accueil h1 {
+  margin: 0 0 1rem 0;
+  font-size: 3rem;
+  line-height: 1.1;
+  color: var(--blue-primary);
+  font-weight: 800;
+}
+
+#accueil p {
+  margin: 0 0 2rem 0;
+  font-size: 1.35rem;
+  color: var(--text-dark);
+  opacity: 0.9;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Call to Action button (CTA) */
+#accueil a[download] { /* Targets the "Télécharger mon Dossier de Réalisations (PDF)" link */
+  display: inline-block;
+  background: var(--blue-primary);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.15rem;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+#accueil a[download]:hover,
+#accueil a[download]:focus {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(11,25,46,0.18);
+  background-color: #1a2c4e; /* Slightly darker blue on hover */
+  outline: none;
+}
+
+/* --------------------------
+   Activities/Services grid (#activites)
+   -------------------------- */
+#activites .container > div { /* Targets the grid container div */
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+  margin-top: 2rem;
+}
+
+#activites > div > div { /* Targets individual service cards */
+  background: var(--card-white);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(16,33,49,0.04);
+  text-align: left;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+#activites > div > div:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+#activites h3 { /* Service card titles */
+  margin: 0 0 0.75rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--blue-primary);
+}
+
+#activites > div > div > div { /* Wrapper for skill spans */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+#activites span { /* Skill badges */
+  background: rgba(27,54,93,0.08); /* Light background for badges */
+  color: var(--text-dark);
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px; /* Pill shape */
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap; /* Prevent breaking lines inside badges */
+}
+
+/* --------------------------
+   Projects Section (#projets)
+   Note: The HTML for this section contains a single card with multiple spans
+   instead of a video and a second detailed project.
+   This CSS styles the existing content as a list of project highlights.
+   -------------------------- */
+#projets .container > div { /* Grid container for projects */
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Single column or wider on desktop */
+  margin-top: 2rem;
+}
+
+#projets > div > div { /* Individual project card */
+  background: var(--card-white);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(16,33,49,0.04);
+  text-align: left;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+#projets > div > div:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+#projets h3 { /* Project card title */
+  margin: 0 0 0.75rem 0;
+  font-size: 1.25rem;
+  color: var(--blue-primary);
+  font-weight: 700;
+}
+
+#projets p { /* Project description */
+  margin: 0 0 1rem 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+#projets > div > div > div { /* Wrapper for project list items */
+  display: flex;
+  flex-direction: column; /* Stack project items */
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+#projets > div > div > div span { /* Individual project list item */
+  background: rgba(27,54,93,0.04); /* Lighter background for these list items */
+  color: var(--text-dark);
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px; /* Slightly less rounded than skill badges */
+  font-weight: 500;
+  text-align: left;
+  border-left: 3px solid var(--blue-primary); /* Accent line */
+  transition: background-color 0.15s ease-in-out;
+}
+
+#projets > div > div > div span:hover {
+  background-color: rgba(27,54,93,0.08);
+}
+
+/* --------------------------
+   Contact / Footer (#contact within footer)
+   Note: The HTML provided does not include a form, only contact links.
+   This CSS styles the existing contact details.
+   -------------------------- */
+footer { /* Targets the main footer */
+  background-color: var(--blue-primary); /* Blue background for footer */
+  color: #fff;
+  padding: 3rem 0 1.5rem;
+  text-align: center;
+}
+
+#contact { /* Targets the div#contact inside the footer */
+  max-width: var(--container);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+#contact h2 {
+  color: var(--card-white); /* White title on blue background */
+  margin-bottom: 1.5rem;
+}
+
+#contact p {
+  margin: 0 auto 2.5rem auto;
+  font-size: 1.125rem;
+  max-width: 800px;
+  color: rgba(255,255,255,0.85);
+}
+
+#contact > div { /* Wrapper for contact links */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+#contact > div a { /* Individual contact links */
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--card-white);
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 500;
+  transition: color 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+#contact > div a:hover {
+  color: #c0d4f1; /* Lighter blue on hover */
+  transform: translateY(-2px);
+}
+
+#contact > div a svg { /* SVG icons in contact links */
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+
+#contact .copyright {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  margin-top: 3rem; /* Space between links and copyright */
+}
+
+/* --------------------------
+   Responsive rules (Media Queries)
+   -------------------------- */
+
+/* Desktop to Tablet transition (max-width: 992px) */
+@media (max-width: 992px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  header nav ul {
+    gap: 1.25rem;
+  }
+
+  #accueil h1 {
+    font-size: 2.5rem;
+  }
+  #accueil p {
+    font-size: 1.2rem;
+  }
+
+  #activites .container > div {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Two columns on tablet */
+  }
+
+  #projets .container > div {
+    grid-template-columns: 1fr; /* Single column on tablet */
+  }
+
+  #contact > div {
+    gap: 1.5rem;
+    flex-direction: column; /* Stack contact links vertically */
+  }
+}
+
+/* Tablet to Mobile transition (max-width: 768px) */
+@media (max-width: 768px) {
+  header nav ul {
+    display: none; /* Hide desktop nav */
+  }
+
+  .mobile-menu-button {
+    display: block; /* Show burger menu button */
+  }
+
+  header nav {
+    padding: 0.75rem 1rem;
+  }
+
+  header nav > a { /* Adjust brand size for mobile */
+    font-size: 1.15rem;
+  }
+
+  #accueil {
+    padding-top: 6rem;
+    min-height: calc(100vh - 6rem);
+  }
+  #accueil h1 {
+    font-size: 2rem;
+  }
+  #accueil p {
+    font-size: 1.05rem;
+  }
+  #accueil a[download] {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  main section {
+    padding: 3rem 0;
+  }
+  .section-title {
+    font-size: 1.8rem;
+  }
+  .section-intro {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  #activites .container > div,
+  #projets .container > div {
+    grid-template-columns: 1fr; /* Single column on mobile */
+  }
+
+  #activites h3, #projets h3 {
+    font-size: 1.15rem;
+  }
+
+  #activites > div > div, #projets > div > div {
+    padding: 1.25rem;
+  }
+
+  #contact h2 {
+    font-size: 1.8rem;
+  }
+  #contact p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  #contact > div a {
+    font-size: 1rem;
+    gap: 0.5rem;
+  }
+  #contact > div a svg {
+    width: 24px;
+    height: 24px;
+  }
+  #contact .copyright {
+    margin-top: 2rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Accessibility: visible focus for keyboard users */
+a:focus, button:focus, input:focus, textarea:focus {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Small visual polish for forms on touch devices (disable hover effects) */
+@media (hover: none) {
+  header nav ul li a:hover,
+  .mobile-menu ul li a:hover,
+  #accueil a[download]:hover,
+  #activites > div > div:hover,
+  #projets > div > div:hover,
+  #contact > div a:hover {
+    transform: none;
+    box-shadow: none;
+    background-color: initial;
+    color: initial;
+  }
+  #activites > div > div:hover {
+    box-shadow: var(--shadow-sm); /* Keep initial shadow */
+  }
+  #projets > div > div > div span:hover {
+    background-color: rgba(27,54,93,0.04);
+  }
+}
